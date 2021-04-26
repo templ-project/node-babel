@@ -47,18 +47,18 @@ which is also included in
 <!-- TOC -->
 
 - [Templ Node.js](#templ-nodejs)
-  - [Getting Started](#getting-started)
-    - [Prerequisites / Dependencies](#prerequisites--dependencies)
-        - [For Windows](#for-windows)
-        - [For Linux/Unix/OSX](#for-linuxunixosx)
-    - [Installation](#installation)
-    - [Development](#development)
-      - [Requirements](#requirements)
-    - [Testing](#testing)
-      - [Single Tests](#single-tests)
-    - [Deployment](#deployment)
-  - [Authors](#authors)
-  - [License](#license)
+    - [Getting Started](#getting-started)
+        - [Prerequisites / Dependencies](#prerequisites--dependencies)
+                - [For Windows](#for-windows)
+                - [For Linux/Unix/OSX](#for-linuxunixosx)
+        - [Installation](#installation)
+        - [Development](#development)
+            - [Requirements](#requirements)
+        - [Testing](#testing)
+            - [Single Tests](#single-tests)
+        - [Deployment](#deployment)
+    - [Authors](#authors)
+    - [License](#license)
 
 <!-- /TOC -->
 
