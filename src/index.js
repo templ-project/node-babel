@@ -1,5 +1,1 @@
-const hello = (name) => `Hello ${name}!`;
-
-module.exports = {
-  hello,
-};
+export const hello = (name) => `Hello ${name}!`;
