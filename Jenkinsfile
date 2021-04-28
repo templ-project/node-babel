@@ -77,6 +77,21 @@ pipeline {
       }
     }
 
+    // stage('Code Build') {
+    //   steps {
+    //     script {
+    //       sh """
+    //         . ~/.bashrc > /dev/null;
+    //         set -ex;
+    //         for version in ${NODE_VERSIONS}; do \\
+    //           nvm use \$version; \\
+    //           npm run build; \\
+    //         done
+    //         """
+    //     }
+    //   }
+    // }
+
     stage('Code Docs') {
       steps {
         script {
