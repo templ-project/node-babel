@@ -11,8 +11,15 @@
 <!-- [![CircleCI](https://circleci.com/gh/templ-project/node-babel.svg?style=shield)](https://circleci.com/gh/templ-project/node-babel) -->
 
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=alert_status)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=code_smells)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=security_rating)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=ncloc)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
 [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=templ-project_node-babel)
 [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=templ-project_node-babel)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=sqale_index)](https://sonarcloud.io/dashboard?id=templ-project_node-babel)
 [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=templ-project_node-babel&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=templ-project_node-babel)
 
 <!-- Donation Badges -->
@@ -114,7 +121,7 @@ npm install
 
 - Please install [NodeJs](https://nodejs.org/en/). We support version 10.x and above.
 - Please instal a JavaScript/TypeScript IDE
-  - [Visual Studio Code](https://code.visualstudio.com/) with [ITMCDev Babel Extension Pack](https://marketplace.visualstudio.com/items?itemName=itmcdev.node-babel-extension-pack) or [ITMCDev TypeScript Extension Pack](https://marketplace.visualstudio.com/items?itemName=itmcdev.node-typescript-extension-pack)
+  - [Visual Studio Code](https://code.visualstudio.com/) with [ITMCDev Babel Extension Pack](https://marketplace.visualstudio.com/items?itemName=itmcdev.node-babel-extension-pack) or [ITMCDev TypeScript Extension Pack](https://marketplace.visualstudio.com/items?itemName=itmcdev.node-babel-extension-pack)
   - [Jetbrains WebStorm](https://www.jetbrains.com/webstorm/)
   - [Vim](https://www.vim.org/) with [neoclide/coc.nvim](https://github.com/neoclide/coc.nvim) and [HerringtonDarkholme/yats.vim](https://github.com/HerringtonDarkholme/yats.vim) extensions.
   - Any other IDE you trust.
