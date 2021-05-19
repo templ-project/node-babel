@@ -7,7 +7,7 @@ module.exports = {
     {
       files: '*.json',
       options: {
-        parser: 'json5',
+        parser: 'json',
         singleQuote: false,
       },
     },
@@ -18,5 +18,4 @@ module.exports = {
   singleQuote: true,
   tabWidth: 2,
   trailingComma: 'all',
-  bracketSpacing: false,
 };

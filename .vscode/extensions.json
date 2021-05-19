@@ -1,7 +1,7 @@
 {
-	"recommendations": [
-		"itmcdev.node-extension-pack",
-		"itmcdev.node-babel-extension-pack",
+  "recommendations": [
+    "itmcdev.node-extension-pack",
+    "itmcdev.node-babel-extension-pack",
     "itmcdev.node-test-extension-pack"
-	]
+  ]
 }
