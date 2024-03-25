@@ -38,6 +38,9 @@ bower_components
 build/Release
 dist
 
+# swc config file
+.swcrc
+
 # Dependency directories
 node_modules/
 jspm_packages/

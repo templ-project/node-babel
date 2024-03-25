@@ -1,62 +1,46 @@
-import babel from '@rollup/plugin-babel';
+const babel = require('@rollup/plugin-babel');
+const {nodeResolve} = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const extensions = ['.js'];
 
-const entryName = 'index';
-/**
- * Replace this with the name of your module
- */
-const name = 'javascript-template';
+// Use `process.env.BUILD_ENV` to set the environment
+const buildEnv = process.env.BUILD_ENV || 'mjs'; // Default to 'mjs'
 
-const bab = () =>
-  babel({
-    // cacheRoot: '.rollupcache',
-    babelHelpers: 'bundled',
-  });
+// Define environment-specific overrides here
+const envTargets = {
+  cjs: {node: 'current'},
+  mjs: {esmodules: true},
+  browser: '> 0.25%, not dead, last 2 versions',
+};
 
-export default [
-  {
-    input: `src/${entryName}.js`,
-    output: [
-      {
-        file: `dist/es2015/${entryName}.js`,
-        format: 'es',
-      },
-      {
-        file: `dist/umd-es2015/${entryName}.js`,
-        format: 'umd',
-        name: name,
-      },
-    ],
-    plugins: [bab()],
+module.exports = {
+  input: 'src/index.js',
+  output: {
+    dir: `dist/.rollup/${buildEnv}`,
+    format: buildEnv === 'cjs' ? 'cjs' : 'es',
+    // sourcemap: true,
   },
-].concat(
-  !isProduction
-    ? []
-    : [
-        {
-          input: `src/${entryName}.js`,
-          output: {
-            // @bab/ts-ignore
-            file: `dist/es2017/${entryName}.js`,
-            format: 'es',
-          },
-          plugins: [bab()],
-        },
-        {
-          input: `src/${entryName}.js`,
-          output: [
-            {file: `dist/commonjs/${entryName}.js`, format: 'cjs'},
-            {
-              file: `dist/amd/${entryName}.js`,
-              format: 'amd',
-              amd: {id: entryName},
-            },
-            {file: `dist/native-modules/${entryName}.js`, format: 'es'},
-            {file: `dist/umd/${entryName}.js`, format: 'umd', name: name},
-            {file: `dist/system/${entryName}.js`, format: 'system'},
-          ],
-          plugins: [bab()],
-        },
-      ],
-);
+  plugins: [
+    nodeResolve({extensions}),
+    commonjs(),
+    // not using babel for cjs builds, not sure how to solve error yet
+    ...(buildEnv !== 'cjs'
+      ? [
+          babel({
+            babelHelpers: 'bundled',
+            extensions,
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  targets: envTargets[buildEnv],
+                  modules: buildEnv === 'cjs' ? 'commonjs' : false, // Specify module transformation based on the environment
+                },
+              ],
+            ],
+          }),
+        ]
+      : []),
+  ],
+};
