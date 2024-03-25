@@ -1,10 +1,11 @@
-const fs = require('fs');
-const path = require('path');
+const {mkdirSync, writeFileSync} = require('fs');
+const {dirname, join: pathJoin, relative} = require('path');
 const {spawn} = require('child_process');
+const {platform} = require('os');
 
 const buildEnv = process.env.BUILD_ENV || 'mjs';
 
-function generateSwcConfig(env) {
+const generateSwcConfig = (env) => {
   const config = {
     module: {type: 'es6'},
     jsc: {
@@ -19,8 +20,8 @@ function generateSwcConfig(env) {
     config.module.type = 'commonjs';
   }
 
-  fs.writeFileSync('.swcrc', JSON.stringify(config, null, 2));
-}
+  writeFileSync('.swcrc', JSON.stringify(config, null, 2));
+};
 
 generateSwcConfig(buildEnv);
 
@@ -31,18 +32,24 @@ import('globby').then(({globby}) => {
   globby(['src/**/*.js']).then((files) => {
     files.forEach((file) => {
       // Calculate output path
-      const outFile = path.join(outputDir, path.relative('src', file));
-      const outDir = path.dirname(outFile);
+      const outFile = pathJoin(outputDir, relative('src', file));
+      const outDir = dirname(outFile);
 
       // Ensure the directory exists
-      fs.mkdirSync(outDir, {recursive: true});
+      mkdirSync(outDir, {recursive: true});
 
       console.log(`Compiling ${file} to ${outFile}`);
 
       // Use a Promise to handle the asynchronous nature of spawn
       const compile = () =>
         new Promise((resolve, reject) => {
-          const proc = spawn('npx', ['swc', file, '-o', outFile], {stdio: 'inherit'});
+          const proc = spawn(
+            pathJoin(__dirname, '..', 'node_modules', '.bin', `swc${platform() !== 'win32' ? '' : '.cmd'}`),
+            [file, '-o', outFile],
+            {
+              stdio: 'inherit',
+            },
+          );
 
           proc.on('close', (code) => {
             if (code === 0) {

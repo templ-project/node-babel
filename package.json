@@ -74,7 +74,7 @@
     "sonarqube-scanner": "^3.3.0"
   },
   "scripts": {
-    "build": "run-s clean build:babel build:esbuild build:rollup build:swc",
+    "build": "run-s clean build:babel build:esbuild build:rollup build:swc && node .scripts/make-module.js",
     "build:babel": "run-s build:babel:*",
     "build:babel:browser": "cross-env BUILD_ENV=browser babel src --out-dir dist/browser --extensions \".js\"",
     "build:babel:cjs": "cross-env BUILD_ENV=cjs babel src --out-dir dist/cjs --extensions \".js\"",

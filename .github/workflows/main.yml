@@ -17,20 +17,16 @@ jobs:
     strategy:
       matrix:
         node-version:
-          #  error dependency-cruiser@10.0.1: The engine "node" is incompatible with this module. Expected version "^12.20||^14||>=16".
-          # - 10.x
-          - 12.x
-          #  error @babel/eslint-parser@7.14.2: The engine "node" is incompatible with this module. Expected version "^10.13.0 || ^12.13.0 || >=14.0.0".
-          # - 13.x
-          - 14.x
-          # - 15.x
           - 16.x
+          - 18.x
+          - 20.x
+          - 21.x
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - name: Init
@@ -41,6 +37,3 @@ jobs:
       run: npm run test
     - name: Code Build
       run: npm run build
-    - name: Code Docs
-      if: ${{ matrix.node-version == '14.x' }}
-      run: npm run docs
