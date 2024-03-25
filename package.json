@@ -71,7 +71,8 @@
     "release-it": "^17.1.1",
     "rimraf": "^5.0.5",
     "rollup": "^4.13.0",
-    "sonarqube-scanner": "^3.3.0"
+    "sonarqube-scanner": "^3.3.0",
+    "vitest": "^1.4.0"
   },
   "scripts": {
     "build": "run-s clean build:babel build:esbuild build:rollup build:swc && node .scripts/make-module.js",
@@ -103,7 +104,7 @@
     "lint": "eslint ./{src,test*}/**/*.js --fix",
     "prettier": "prettier ./{src,test*}/**/*.js --write",
     "release": "release-it --ci --no-npm.publish",
-    "test": "run-s test:ava test:jasmine test:jest test:mocha",
+    "test": "run-s test:ava test:jasmine test:jest test:mocha test:vitest",
     "test:ava": "cross-env NODE_ENV=test nyc ava",
     "test:watch:ava": "npm run test:ava -- --watch",
     "test:jasmine": "cross-env NODE_ENV=test nyc node -r @babel/register node_modules/.bin/jasmine --config=jasmine.json",
@@ -113,6 +114,8 @@
     "test:mocha": "npm run test:single:mocha -- './test.mocha/**/*.test.js'",
     "test:watch:mocha": "npm run test:mocha -- --watch",
     "test:single:mocha": "cross-env NODE_ENV=test nyc --extension .js mocha --forbid-only",
+    "test:vitest": "npm run test:watch:vitest -- --run",
+    "test:watch:vitest": "cross-env NODE_ENV=test vitest",
     "prepare": "husky"
   },
   "importSort": {
