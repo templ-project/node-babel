@@ -1,9 +1,53 @@
 {
   "name": "templ-node",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node Project Template",
   "main": "dist/commonjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/templ-project/node-babel.git"
+  },
+  "author": "Dragos Cirjan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/templ-project/node-babel/issues"
+  },
+  "homepage": "https://github.com/templ-project/node-babel#readme",
+  "exports": {
+    ".": {
+      "browser": "./dist/browser/index.js",
+      "bun": "./dist/browser/index.js",
+      "deno": "./src/index.js",
+      "import": "./dist/node/mjs/index.js",
+      "require": "./dist/node/cjs/index.js",
+      "worker": "./dist/browser/index.js"
+    }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.1",
+    "@babel/core": "^7.24.3",
+    "@babel/preset-env": "^7.24.3",
+    "core-js": "^3.36.1",
+    "cross-env": "^7.0.3",
+    "npm-run-all2": "^6.1.2",
+    "rimraf": "^5.0.5"
+  },
   "scripts": {
+    "build": "run-p build:babel",
+    "build:babel": "run-p build:babel:*",
+    "build:babel:browser": "cross-env BABEL_ENV=browser babel src --out-dir dist/browser --extensions \".js\"",
+    "build:babel:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir dist/cjs --extensions \".js\"",
+    "build:babel:mjs": "babel src --out-dir dist/mjs --extensions \".js\"",
+    "clean": "rimraf ./dist",
+    "prebuild": "run-s clean"
+  },
+  "importSort": {
+    ".js, .jsx": {
+      "parser": "babylon",
+      "style": "module"
+    }
+  },
+  "oldScripts": {
     "build": "rollup -c --environment NODE_ENV:production",
     "ca:lint": "npm run prettier:write && npm run lint:write",
     "ca:quality": "npm run jscpd && npm run depcruise",
@@ -35,17 +79,7 @@
     "test:watch": "npm run test -- --watch",
     "test": "npm run test:single -- './test/**/*.test.js'"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/templ-project/node-babel.git"
-  },
-  "author": "Dragos Cirjan",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/templ-project/node-babel/issues"
-  },
-  "homepage": "https://github.com/templ-project/node-babel#readme",
-  "devDependencies": {
+  "oldDevDependencies": {
     "@babel/core": "7.14.3",
     "@babel/eslint-parser": "^7.14.3",
     "@babel/preset-env": "7.14.2",
@@ -81,12 +115,5 @@
     "rollup": "^2.48.0",
     "sonarqube-scanner": "^2.8.0",
     "typescript": "^4.2.4"
-  },
-  "peerDependencies": {},
-  "importSort": {
-    ".js, .jsx": {
-      "parser": "babylon",
-      "style": "module"
-    }
   }
 }
