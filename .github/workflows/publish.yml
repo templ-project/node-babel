@@ -38,8 +38,8 @@ jobs:
           version=$(jq -r '.version' package.json)
           echo "Creating release for version $version"
 
-          # Create Release
-          gh release create "v$version" --title "Release $version" --notes "Release $version"
+          # # Create Release
+          # gh release create "v$version" --title "Release $version" --notes "Release $version"
 
           # Upload project zip
-          gh release upload "v$version" "project-$version.zip" --clobber
+          gh release upload "$version" "project-$version.zip" --clobber
