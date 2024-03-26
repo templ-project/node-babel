@@ -28,7 +28,8 @@ jobs:
             && sudo apt install gh jq zip -y
       - name: Zip project
         run: |
-          zip -r project-${{ needs.release.outputs.version }}.zip . -x "node_modules/**\*" ".git/**\*" "dist/**\*"
+          version=$(jq -r '.version' package.json)
+          zip -r project-$version.zip . -x "node_modules/**\*" ".git/**\*" "dist/**\*"
       - name: Create GitHub Release and Upload Zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -41,4 +42,4 @@ jobs:
           gh release create "v$version" --title "Release $version" --notes "Release $version"
 
           # Upload project zip
-          gh release upload "v$version" "project-${{ needs.release.outputs.version }}.zip" --clobber
+          gh release upload "v$version" "project-$version.zip" --clobber
