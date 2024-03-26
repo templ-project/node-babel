@@ -69,6 +69,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-import-sort": "^0.0.7",
     "release-it": "^17.1.1",
+    "release-please": "^16.10.1",
     "rimraf": "^5.0.5",
     "rollup": "^4.13.0",
     "sonarqube-scanner": "^3.3.0",
@@ -102,8 +103,10 @@
     "jscpd": "jscpd ./src --blame",
     "license-check": "npx license-checker --production --json --failOn='AGPL AGPL 1.0; AGPL 3.0; CDDL or GPLv2 with exceptions; CNRI Python GPL Compatible; Eclipse 1.0; Eclipse 2.0; GPL; GPL 1.0; GPL 2.0; GPL 2.0 Autoconf; GPL 2.0 Bison; GPL 2.0 Classpath; GPL 2.0 Font; GPL 2.0 GCC; GPL 3.0; GPL 3.0 Autoconf; GPL 3.0 GCC; GPLv2 with XebiaLabs FLOSS License Exception; LGPL; LGPL 2.0; LGPL 2.1; LGPL 3.0; Suspected Eclipse 1.0; Suspected Eclipse 2.0'",
     "lint": "eslint ./{src,test*}/**/*.js --fix",
+    "prepare": "husky",
     "prettier": "prettier ./{src,test*}/**/*.js --write",
-    "release": "release-it --ci --no-npm.publish",
+    "release": "release-please",
+    "--release": "release-it --ci --no-npm.publish",
     "test": "run-s test:ava test:jasmine test:jest test:mocha test:vitest",
     "test:ava": "cross-env NODE_ENV=test nyc ava",
     "test:watch:ava": "npm run test:ava -- --watch",
@@ -115,8 +118,7 @@
     "test:watch:mocha": "npm run test:mocha -- --watch",
     "test:single:mocha": "cross-env NODE_ENV=test nyc --extension .js mocha --forbid-only",
     "test:vitest": "npm run test:watch:vitest -- --run",
-    "test:watch:vitest": "cross-env NODE_ENV=test vitest",
-    "prepare": "husky"
+    "test:watch:vitest": "cross-env NODE_ENV=test vitest"
   },
   "importSort": {
     ".js, .jsx": {
