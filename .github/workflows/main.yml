@@ -104,7 +104,7 @@ jobs:
     if: github.event_name != 'pull_request' && needs.release.outputs.version
     name: 'Publish Template'
     needs: [release]
-    uses: solidref/solidref/.github/workflows/publish.yml@main
+    uses: templ-project/node-babel/.github/workflows/publish.yml@main
     # with:
     #   GhReleaseBranch: main
     secrets: inherit
