@@ -1,6 +1,6 @@
 {
   "name": "templ-node",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Node Project Template",
   "main": "dist/commonjs/index.js",
   "repository": {
@@ -127,19 +127,37 @@
     }
   },
   "ava": {
-    "files": ["test.ava/**/*.test.js"],
+    "files": [
+      "test.ava/**/*.test.js"
+    ],
     "babel": {
-      "extensions": ["js"],
+      "extensions": [
+        "js"
+      ],
       "testOptions": {
         "babelrc": true
       }
     },
-    "extensions": ["js"],
-    "require": ["@babel/register"]
+    "extensions": [
+      "js"
+    ],
+    "require": [
+      "@babel/register"
+    ]
   },
   "nyc": {
-    "reporter": ["html", "lcov", "text"],
-    "exclude": ["test*", "dist", "*.js", ".scripts", "coverage"],
+    "reporter": [
+      "html",
+      "lcov",
+      "text"
+    ],
+    "exclude": [
+      "test*",
+      "dist",
+      "*.js",
+      ".scripts",
+      "coverage"
+    ],
     "all": true
   }
 }
