@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/templ-project/node-babel/compare/1.0.2...v1.0.3) (2024-03-26)
+
+
+### Bug Fixes
+
+* should be able to publish code zip now ([a4a3bd3](https://github.com/templ-project/node-babel/commit/a4a3bd349a8c4b51bb9818b2755347ec64e20987))
+
 ## [1.0.2](https://github.com/templ-project/node-babel/compare/v1.0.1...v1.0.2) (2024-03-26)
 
 
