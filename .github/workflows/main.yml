@@ -58,16 +58,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: 'npm'
-
       - name: run npm i
         run: npm install
-
       - name: Create/Update Release PR
         run: |
           npm run release -- release-pr \
@@ -75,7 +71,6 @@ jobs:
             --repo-url=${{ github.repository }} \
             --target-branch=${{ inputs.GhReleaseBranch }} \
             --release-type=node
-
       - name: Create Github Release
         id: new_releases
         run: |
@@ -96,7 +91,6 @@ jobs:
 
           echo version=$version
           echo "version=$version" >> $GITHUB_OUTPUT
-
       - name: Debug
         run: |
           echo github.event_name=${{ github.event_name }}
@@ -107,48 +101,35 @@ jobs:
   #                          PUBLISH IMAGE                              #
   #######################################################################
   publish:
+    if: github.event_name != 'pull_request' && needs.release.outputs.version
+    name: 'Publish Template'
+    needs: [release]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Use Node.js 18.x
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: 'npm'
-
+          # cache: 'npm'
       - name: Install Dependencies
         run: |
-          npm install
-          npm install -g gh-release-cli
-          apt-get install -y jq
-
+          npm install -g gh
+          apt-get install -y jq zip
       - name: Zip project
         run: |
-          zip -r project-${{ needs.release.outputs.version }}.zip . -x node_modules/**\* .git/**\*
-
-      - name: Create Github Release and Upload Zip
-        id: new_releases
+          zip -r project-${{ needs.release.outputs.version }}.zip . -x "node_modules/**\*" ".git/**\*" "dist/**\*"
+      - name: Create GitHub Release and Upload Zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          set +e
+          # Assuming the version is updated in the package.json by the merged PR
+          version=$(jq -r '.version' package.json)
+          echo "Creating release for version $version"
 
-          output=$(npm run release -- github-release \
-            --token=${{ secrets.GH_TOKEN }} \
-            --repo-url=${{ github.repository }} \
-            --target-branch=${{ inputs.GhReleaseBranch }} \
-            --release-type=node \
-            --include-v-in-tags=false)
+          # Create Release
+          gh release create "v$version" --title "Release $version" --notes "Release $version"
 
-          echo "$output"
-
-          version=$(echo "$output" | grep -oP "version: '\K[^']+")
-          # version=$(cat package.json | jq -r '.version')
-          echo "Version: $version"
-
-          # Create a GitHub Release and upload the zip as an asset
-          gh release create v${version} project-${version}.zip -t "Release $version" -n "Release notes here"
-
-          echo "version=$version" >> $GITHUB_OUTPUT
+          # Upload project zip
+          gh release upload "v$version" "project-${{ github.sha }}.zip" --clobber
