@@ -102,3 +102,53 @@ jobs:
           echo github.event_name=${{ github.event_name }}
           echo github.event.pull_request.merged=${{ github.event.pull_request.merged }}
           echo needs.release.outputs.version=${{ needs.release.outputs.version }}
+
+  #######################################################################
+  #                          PUBLISH IMAGE                              #
+  #######################################################################
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install -g gh-release-cli
+          apt-get install -y jq
+
+      - name: Zip project
+        run: |
+          zip -r project-${{ needs.release.outputs.version }}.zip . -x node_modules/**\* .git/**\*
+
+      - name: Create Github Release and Upload Zip
+        id: new_releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set +e
+
+          output=$(npm run release -- github-release \
+            --token=${{ secrets.GH_TOKEN }} \
+            --repo-url=${{ github.repository }} \
+            --target-branch=${{ inputs.GhReleaseBranch }} \
+            --release-type=node \
+            --include-v-in-tags=false)
+
+          echo "$output"
+
+          version=$(echo "$output" | grep -oP "version: '\K[^']+")
+          # version=$(cat package.json | jq -r '.version')
+          echo "Version: $version"
+
+          # Create a GitHub Release and upload the zip as an asset
+          gh release create v${version} project-${version}.zip -t "Release $version" -n "Release notes here"
+
+          echo "version=$version" >> $GITHUB_OUTPUT
