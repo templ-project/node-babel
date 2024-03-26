@@ -1,4 +1,4 @@
-name: Publish Code to GH Pages
+name: Publish Template
 
 on:
   workflow_call:
