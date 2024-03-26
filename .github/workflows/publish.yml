@@ -1,0 +1,45 @@
+name: Publish Code to GH Pages
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: 'Publish Template'
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Install Dependencies
+        run: |
+          # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+          sudo mkdir -p -m 755 /etc/apt/keyrings \
+            && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+              | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+            && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+            && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+              | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+            && sudo apt update \
+            && sudo apt install gh jq zip -y
+      - name: Zip project
+        run: |
+          zip -r project-${{ needs.release.outputs.version }}.zip . -x "node_modules/**\*" ".git/**\*" "dist/**\*"
+      - name: Create GitHub Release and Upload Zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          # Assuming the version is updated in the package.json by the merged PR
+          version=$(jq -r '.version' package.json)
+          echo "Creating release for version $version"
+
+          # Create Release
+          gh release create "v$version" --title "Release $version" --notes "Release $version"
+
+          # Upload project zip
+          gh release upload "v$version" "project-${{ github.sha }}.zip" --clobber
