@@ -41,4 +41,4 @@ jobs:
           gh release create "v$version" --title "Release $version" --notes "Release $version"
 
           # Upload project zip
-          gh release upload "v$version" "project-${{ github.sha }}.zip" --clobber
+          gh release upload "v$version" "project-${{ needs.release.outputs.version }}.zip" --clobber
